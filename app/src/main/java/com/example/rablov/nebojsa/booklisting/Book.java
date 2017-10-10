@@ -7,9 +7,9 @@ package com.example.rablov.nebojsa.booklisting;
 public class Book {
 
     private String title;
-    private String[] authors;
+    private String authors;
 
-    public Book(String title, String[] authors) {
+    public Book(String title, String authors) {
         this.title = title;
         this.authors = authors;
     }
@@ -22,11 +22,11 @@ public class Book {
         this.title = title;
     }
 
-    public String[] getAuthors() {
+    public String getAuthors() {
         return authors;
     }
 
-    public void setAuthors(String[] authors) {
+    public void setAuthors(String authors) {
         this.authors = authors;
     }
 }

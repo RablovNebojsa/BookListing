@@ -7,8 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
+/**
+ * Main activity. Handles click on find button.
+ */
 public class BookListingActivity extends AppCompatActivity {
-   // private Button searchButton;
+    private static final String LOG_TAG = "MAIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +25,10 @@ public class BookListingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String searchText;
-                EditText searchTopic = (EditText)findViewById(R.id.search_field);
-                searchText = searchTopic.getText().toString();
-                    Log.i("TEST", searchText);
+                EditText searchEditText = (EditText)findViewById(R.id.search_field);
+                searchText = searchEditText.getText().toString();
+                    Log.i(LOG_TAG, searchText);
+                ArrayList<Book> books = Utils.FetchBooks(searchText);
             }
         });
     }
