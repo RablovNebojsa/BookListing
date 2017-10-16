@@ -1,5 +1,6 @@
 package com.example.rablov.nebojsa.booklisting;
 
+import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -29,6 +30,7 @@ public  final class Utils {
     public static ArrayList<Book> FetchBooks(String word){
         URL apiURL = createUrl(BASE_API_URL + word + MAX_RESOLTS);
         String jsonResponse = makeHttpRequest(apiURL);
+        Log.i(LOG_TAG, jsonResponse);
         return ParseJSONResponse(jsonResponse);
     }
 
@@ -54,7 +56,10 @@ public  final class Utils {
             }
         } catch (IOException e) {
             Log.e(LOG_TAG,"Error: ", e);
-        }finally {
+        }catch(NetworkOnMainThreadException e){
+            Log.e(LOG_TAG,"Network Error: ", e);
+        }
+        finally {
             if(connection != null)
                 connection.disconnect();
             if(inputStream != null)
@@ -99,9 +104,11 @@ public  final class Utils {
             JSONObject root = new JSONObject(json);
             JSONArray items = root.getJSONArray("items");
             JSONObject volumeInfo;
+            JSONObject item;
             JSONArray authorsArray;
             for(int i = 0; i < items.length(); i++){
-                volumeInfo = items.getJSONObject(i);
+                item = items.getJSONObject(i);
+                volumeInfo = item.getJSONObject("volumeInfo");
                 title = volumeInfo.getString("title");
                 authorsArray = volumeInfo.getJSONArray("authors");
                 authors = authorsArray.getString(0);
@@ -112,6 +119,7 @@ public  final class Utils {
         } catch (JSONException e) {
             Log.e(LOG_TAG, "JSON error: ",e);
         }
+        Log.i(LOG_TAG, "Parsiranje JSON");
         return listOFBooks;
     }
 
